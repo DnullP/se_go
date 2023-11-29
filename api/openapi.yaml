@@ -1,0 +1,837 @@
+openapi: 3.0.1
+info:
+  title: air_condition
+  version: 1.0.0
+servers:
+- url: /
+tags:
+- name: auth
+- name: guest
+- name: admin
+- name: check
+- name: bill
+- name: report
+paths:
+  /login:
+    post:
+      deprecated: false
+      description: fake login.
+      parameters: []
+      responses:
+        "200":
+          content:
+            application/json:
+              examples:
+                "1":
+                  summary: 成功示例
+                  value:
+                    status: login success
+              schema:
+                $ref: '#/components/schemas/inline_response_200'
+          description: 成功
+      security: []
+      summary: login
+      tags:
+      - auth
+      x-apifox-folder: auth
+      x-apifox-status: developing
+      x-run-in-apifox: https://apifox.com/web/project/3674226/apis/api-129121469-run
+  /logout:
+    post:
+      deprecated: false
+      description: fake logout
+      parameters: []
+      responses:
+        "200":
+          content:
+            application/json:
+              examples:
+                "1":
+                  summary: 成功示例
+                  value:
+                    status: logouted
+              schema:
+                $ref: '#/components/schemas/inline_response_200'
+          description: 成功
+      security: []
+      summary: logout
+      tags:
+      - auth
+      x-apifox-folder: auth
+      x-apifox-status: developing
+      x-run-in-apifox: https://apifox.com/web/project/3674226/apis/api-129122213-run
+  /remote_control:
+    post:
+      deprecated: false
+      description: send control command to the condition.
+      parameters:
+      - explode: true
+        in: query
+        name: device_id
+        required: true
+        schema:
+          type: string
+        style: form
+      requestBody:
+        $ref: '#/components/requestBodies/inline_object'
+        content:
+          application/json:
+            example:
+              command: turn_on
+              args: []
+            schema:
+              properties:
+                command:
+                  enum:
+                  - turn_on
+                  - turn_off
+                  - set_temperature
+                  - set_speed
+                  type: string
+                  x-apifox:
+                    enumDescriptions:
+                      turn_on: no args
+                      turn_off: no args
+                      set_temperature: need 1 float as string
+                      set_speed: low, mid, high
+                args:
+                  items:
+                    type: string
+                  type: array
+              required:
+              - args
+              - command
+              type: object
+              x-apifox-orders:
+              - command
+              - args
+              x-apifox-ignore-properties: []
+      responses:
+        "200":
+          content:
+            application/json:
+              examples:
+                "1":
+                  summary: 异常示例
+                  value:
+                    status: failed!
+              schema:
+                $ref: '#/components/schemas/inline_response_200_1'
+          description: 成功
+      security: []
+      summary: remote_control
+      tags:
+      - guest
+      x-apifox-folder: guest
+      x-apifox-status: developing
+      x-run-in-apifox: https://apifox.com/web/project/3674226/apis/api-129131545-run
+  /admin_control:
+    post:
+      deprecated: false
+      description: send control command to device. (extra permissions).
+      parameters:
+      - example: "123"
+        explode: true
+        in: query
+        name: device_id
+        required: true
+        schema:
+          type: string
+        style: form
+      requestBody:
+        $ref: '#/components/requestBodies/inline_object_1'
+        content:
+          application/json:
+            example:
+              command: set_speed
+              args:
+              - "1.14514"
+            schema:
+              properties:
+                command:
+                  enum:
+                  - turn_on
+                  - turn_off
+                  - set_temperature
+                  - set_speed
+                  - set_mode
+                  - set_valid_range
+                  - set_price
+                  type: string
+                  x-apifox:
+                    enumDescriptions:
+                      turn_on: no args
+                      turn_off: no args
+                      set_temperature: need 1 float as string
+                      set_speed: need 1 float as string
+                      set_mode: need 1 boolean as string
+                      set_valid_range: need 2 float as string
+                      set_price: need 1 float as string
+                args:
+                  items:
+                    type: string
+                  type: array
+              required:
+              - args
+              - command
+              type: object
+              x-apifox-orders:
+              - command
+              - args
+              x-apifox-ignore-properties: []
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_200_1'
+          description: 成功
+      security: []
+      summary: admin_control
+      tags:
+      - admin
+      x-apifox-folder: admin
+      x-apifox-status: developing
+      x-run-in-apifox: https://apifox.com/web/project/3674226/apis/api-129135697-run
+  /get_all_device_status:
+    get:
+      deprecated: false
+      description: get all device status
+      parameters: []
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_200_2'
+          description: 成功
+      security: []
+      summary: get_all_device_status
+      tags:
+      - admin
+      x-apifox-folder: admin
+      x-apifox-status: developing
+      x-run-in-apifox: https://apifox.com/web/project/3674226/apis/api-129142238-run
+  /get_device_status:
+    get:
+      deprecated: false
+      description: get the status of a specified device.
+      parameters:
+      - example: "123"
+        explode: true
+        in: query
+        name: device_id
+        required: true
+        schema:
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              examples:
+                "1":
+                  summary: 成功示例
+                  value:
+                    working: "true"
+                    mode: warm
+                    env_temperature: "27.2"
+                    target_temperature: "100.1"
+                    speed: mid
+                    total_cost: "996.3"
+              schema:
+                $ref: '#/components/schemas/inline_response_200_3'
+          description: 成功
+      security: []
+      summary: get_device_status
+      tags:
+      - admin
+      x-apifox-folder: admin
+      x-apifox-status: developing
+      x-run-in-apifox: https://apifox.com/web/project/3674226/apis/api-129144013-run
+  /check_in:
+    post:
+      deprecated: false
+      description: check in a room.
+      parameters:
+      - example: "123"
+        explode: true
+        in: query
+        name: room_id
+        required: true
+        schema:
+          type: string
+        style: form
+      requestBody:
+        $ref: '#/components/requestBodies/inline_object_2'
+        content:
+          application/json:
+            schema:
+              properties:
+                guest_name:
+                  type: string
+              required:
+              - guest_name
+              type: object
+              x-apifox-orders:
+              - guest_name
+              x-apifox-ignore-properties: []
+      responses:
+        "200":
+          content:
+            application/json:
+              examples:
+                "1":
+                  summary: 成功示例
+                  value:
+                    status: success!
+              schema:
+                $ref: '#/components/schemas/inline_response_200_4'
+          description: 成功
+      security: []
+      summary: check_in Copy
+      tags:
+      - check
+      x-apifox-folder: check
+      x-apifox-status: developing
+      x-run-in-apifox: https://apifox.com/web/project/3674226/apis/api-129149307-run
+  /bill_cost:
+    get:
+      deprecated: false
+      parameters:
+      - example: Li Hua
+        explode: true
+        in: query
+        name: guest_name
+        required: true
+        schema:
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              examples:
+                "1":
+                  summary: 成功示例
+                  value:
+                    guest_cost: "2.33"
+              schema:
+                $ref: '#/components/schemas/inline_response_200_5'
+          description: 成功
+      security: []
+      summary: bill_cost
+      tags:
+      - bill
+      x-apifox-folder: bill
+      x-apifox-status: developing
+      x-run-in-apifox: https://apifox.com/web/project/3674226/apis/api-129153626-run
+  /bill_detail:
+    get:
+      deprecated: false
+      description: get the detail of the aircondition usage of the guest.
+      parameters:
+      - explode: true
+        in: query
+        name: guest_name
+        required: true
+        schema:
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              examples:
+                "1":
+                  summary: 成功示例
+                  value:
+                    detail_list:
+                    - start_time: "1701220528"
+                      end_time: "1701220528"
+                      speed: low
+                      from_tem: "24"
+                      to_tem: "25"
+                    - start_time: "1701220528"
+                      end_time: "1701220528"
+                      speed: mid
+                      from_tem: "25"
+                      to_tem: "27"
+                    - start_time: "1701220528"
+                      end_time: "1701220528"
+                      speed: high
+                      from_tem: "27"
+                      to_tem: "100"
+              schema:
+                $ref: '#/components/schemas/inline_response_200_6'
+          description: 成功
+      security: []
+      summary: bill_detail
+      tags:
+      - bill
+      x-apifox-folder: bill
+      x-apifox-status: developing
+      x-run-in-apifox: https://apifox.com/web/project/3674226/apis/api-129159728-run
+  /get_daily_report:
+    post:
+      deprecated: false
+      description: get_daily_report
+      parameters: []
+      requestBody:
+        $ref: '#/components/requestBodies/inline_object_3'
+        content:
+          application/json:
+            schema:
+              properties:
+                data:
+                  type: string
+              required:
+              - data
+              type: object
+              x-apifox-orders:
+              - data
+              x-apifox-ignore-properties: []
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_200_7'
+          description: 成功
+      security: []
+      summary: get_daily_report
+      tags:
+      - report
+      x-apifox-folder: report
+      x-apifox-status: developing
+      x-run-in-apifox: https://apifox.com/web/project/3674226/apis/api-129164940-run
+  /get_weekly_report:
+    post:
+      deprecated: false
+      description: get_weekly_report
+      parameters: []
+      requestBody:
+        $ref: '#/components/requestBodies/inline_object_4'
+        content:
+          application/json:
+            schema:
+              properties:
+                data:
+                  type: string
+              required:
+              - data
+              type: object
+              x-apifox-orders:
+              - data
+              x-apifox-ignore-properties: []
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_200_7'
+          description: 成功
+      security: []
+      summary: get_weekly_report
+      tags:
+      - report
+      x-apifox-folder: report
+      x-apifox-status: developing
+      x-run-in-apifox: https://apifox.com/web/project/3674226/apis/api-129164961-run
+components:
+  requestBodies:
+    inline_object_1:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/inline_object_1'
+    inline_object:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/inline_object'
+    inline_object_4:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/inline_object_4'
+    inline_object_3:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/inline_object_3'
+    inline_object_2:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/inline_object_2'
+  schemas:
+    inline_response_200:
+      example:
+        status: status
+      properties:
+        status:
+          type: string
+      required:
+      - status
+    inline_object:
+      properties:
+        command:
+          enum:
+          - turn_on
+          - turn_off
+          - set_temperature
+          - set_speed
+          type: string
+          x-apifox:
+            enumDescriptions:
+              turn_on: no args
+              turn_off: no args
+              set_temperature: need 1 float as string
+              set_speed: low, mid, high
+        args:
+          items:
+            type: string
+          type: array
+      required:
+      - args
+      - command
+      type: object
+      x-apifox-orders:
+      - command
+      - args
+      x-apifox-ignore-properties: []
+    inline_response_200_1:
+      example:
+        status: success!
+      properties:
+        status:
+          enum:
+          - success!
+          - failed!
+          type: string
+          x-apifox:
+            enumDescriptions:
+              success!: ""
+              failed!: ""
+      required:
+      - status
+    inline_object_1:
+      properties:
+        command:
+          enum:
+          - turn_on
+          - turn_off
+          - set_temperature
+          - set_speed
+          - set_mode
+          - set_valid_range
+          - set_price
+          type: string
+          x-apifox:
+            enumDescriptions:
+              turn_on: no args
+              turn_off: no args
+              set_temperature: need 1 float as string
+              set_speed: need 1 float as string
+              set_mode: need 1 boolean as string
+              set_valid_range: need 2 float as string
+              set_price: need 1 float as string
+        args:
+          items:
+            type: string
+          type: array
+      required:
+      - args
+      - command
+      type: object
+      x-apifox-orders:
+      - command
+      - args
+      x-apifox-ignore-properties: []
+    inline_response_200_2_device_list:
+      example:
+        mode: cold
+        total_cost: total_cost
+        working: "true"
+        env_temperature: env_temperature
+        target_temperature: target_temperature
+        speed: speed
+      properties:
+        working:
+          enum:
+          - "true"
+          - "false"
+          type: string
+          x-apifox:
+            enumDescriptions:
+              "true": ""
+              "false": ""
+        mode:
+          enum:
+          - cold
+          - warm
+          type: string
+          x-apifox:
+            enumDescriptions:
+              cold: ""
+              warm: ""
+        env_temperature:
+          description: a float as string
+          type: string
+        target_temperature:
+          description: a float as string
+          type: string
+        speed:
+          description: a float as string
+          type: string
+        total_cost:
+          description: a float as string
+          type: string
+      required:
+      - env_temperature
+      - mode
+      - speed
+      - target_temperature
+      - total_cost
+      - working
+    inline_response_200_2:
+      example:
+        device_list:
+        - mode: cold
+          total_cost: total_cost
+          working: "true"
+          env_temperature: env_temperature
+          target_temperature: target_temperature
+          speed: speed
+        - mode: cold
+          total_cost: total_cost
+          working: "true"
+          env_temperature: env_temperature
+          target_temperature: target_temperature
+          speed: speed
+      properties:
+        device_list:
+          items:
+            $ref: '#/components/schemas/inline_response_200_2_device_list'
+          type: array
+      required:
+      - device_list
+    inline_response_200_3:
+      example:
+        mode: cold
+        total_cost: total_cost
+        working: "true"
+        env_temperature: env_temperature
+        target_temperature: target_temperature
+        speed: speed
+      properties:
+        working:
+          enum:
+          - "true"
+          - "false"
+          type: string
+          x-apifox:
+            enumDescriptions:
+              "true": ""
+              "false": ""
+        mode:
+          enum:
+          - cold
+          - warm
+          type: string
+          x-apifox:
+            enumDescriptions:
+              cold: ""
+              warm: ""
+        env_temperature:
+          description: a float as string
+          type: string
+        target_temperature:
+          description: a float as string
+          type: string
+        speed:
+          description: low, mid, high
+          type: string
+        total_cost:
+          description: a float as string
+          type: string
+      required:
+      - env_temperature
+      - mode
+      - speed
+      - target_temperature
+      - total_cost
+      - working
+    inline_object_2:
+      properties:
+        guest_name:
+          type: string
+      required:
+      - guest_name
+      type: object
+      x-apifox-orders:
+      - guest_name
+      x-apifox-ignore-properties: []
+    inline_response_200_4:
+      example:
+        status: success!
+      properties:
+        status:
+          enum:
+          - success!
+          - failed
+          type: string
+          x-apifox:
+            enumDescriptions:
+              success!: ""
+              failed: ""
+      required:
+      - status
+    inline_response_200_5:
+      example:
+        guest_cost: guest_cost
+      properties:
+        guest_cost:
+          type: string
+      required:
+      - guest_cost
+    inline_response_200_6_detail_list:
+      example:
+        start_time: start_time
+        from_tem: from_tem
+        to_tem: to_tem
+        end_time: end_time
+        speed: low
+      properties:
+        start_time:
+          description: follow the unix timestamps
+          type: string
+        end_time:
+          description: follow the unix timestamps
+          type: string
+        speed:
+          enum:
+          - low
+          - mid
+          - high
+          type: string
+          x-apifox:
+            enumDescriptions:
+              low: ""
+              mid: ""
+              high: ""
+        from_tem:
+          type: string
+        to_tem:
+          type: string
+      required:
+      - end_time
+      - from_tem
+      - speed
+      - start_time
+      - to_tem
+    inline_response_200_6:
+      example:
+        detail_list:
+        - start_time: start_time
+          from_tem: from_tem
+          to_tem: to_tem
+          end_time: end_time
+          speed: low
+        - start_time: start_time
+          from_tem: from_tem
+          to_tem: to_tem
+          end_time: end_time
+          speed: low
+      properties:
+        detail_list:
+          items:
+            $ref: '#/components/schemas/inline_response_200_6_detail_list'
+          type: array
+      required:
+      - detail_list
+    inline_object_3:
+      properties:
+        data:
+          type: string
+      required:
+      - data
+      type: object
+      x-apifox-orders:
+      - data
+      x-apifox-ignore-properties: []
+    inline_response_200_7_room_list:
+      example:
+        room_id: room_id
+        bill_times: bill_times
+        tweat_tem_times: tweat_tem_times
+        working_time: working_time
+        tweat_speed_times: tweat_speed_times
+        turn_times: turn_times
+        sched_times: sched_times
+        daily_cost: daily_cost
+      properties:
+        room_id:
+          type: string
+        turn_times:
+          type: string
+        sched_times:
+          type: string
+        bill_times:
+          type: string
+        tweat_tem_times:
+          type: string
+        tweat_speed_times:
+          type: string
+        working_time:
+          description: this is the running time, not times !!!
+          type: string
+        daily_cost:
+          type: string
+      required:
+      - bill_times
+      - daily_cost
+      - room_id
+      - sched_times
+      - turn_times
+      - tweat_speed_times
+      - tweat_tem_times
+      - working_time
+    inline_response_200_7:
+      example:
+        room_list:
+        - room_id: room_id
+          bill_times: bill_times
+          tweat_tem_times: tweat_tem_times
+          working_time: working_time
+          tweat_speed_times: tweat_speed_times
+          turn_times: turn_times
+          sched_times: sched_times
+          daily_cost: daily_cost
+        - room_id: room_id
+          bill_times: bill_times
+          tweat_tem_times: tweat_tem_times
+          working_time: working_time
+          tweat_speed_times: tweat_speed_times
+          turn_times: turn_times
+          sched_times: sched_times
+          daily_cost: daily_cost
+      properties:
+        room_list:
+          items:
+            $ref: '#/components/schemas/inline_response_200_7_room_list'
+          type: array
+      required:
+      - room_list
+    inline_object_4:
+      properties:
+        data:
+          type: string
+      required:
+      - data
+      type: object
+      x-apifox-orders:
+      - data
+      x-apifox-ignore-properties: []
+  securitySchemes: {}
