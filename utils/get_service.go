@@ -9,3 +9,7 @@ func GetUserService() impl.UserServiceImpl {
 func GetControlService() impl.ControlServiceImpl {
 	return impl.ControlServiceImpl{}
 }
+
+func GetQueryService() impl.QueryServiceImpl {
+	return impl.QueryServiceImpl{}
+}

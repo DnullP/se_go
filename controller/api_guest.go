@@ -32,3 +32,20 @@ func RemoteControlPost(c *gin.Context) {
 	response_client.Status = "success"
 	c.JSON(200, response_client)
 }
+
+// GetPanelStatus - get_panel_status
+func GetPanelStatus(c *gin.Context) {
+	device_id := c.Query("device_id")
+	deviceID, _ := strconv.ParseUint(device_id, 10, 64)
+
+	device := utils.GetQueryService().GetDeviceStatus(uint(deviceID))
+
+	response_client := response.PanelStatus{
+		EnvTemperature:    float64(device.CurrentTemperature),
+		Working:           device.Working,
+		TargetTemperature: float64(device.TargetTemperature),
+		Speed:             &device.Speed,
+	}
+
+	c.JSON(200, response_client)
+}
