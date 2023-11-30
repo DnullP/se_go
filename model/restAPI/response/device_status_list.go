@@ -9,7 +9,6 @@
 
 package response
 
-type InlineObject4 struct {
-
-	Data string `json:"data"`
+type DeviceStatusList struct {
+	DeviceList []DeviceStatus `json:"device_list"`
 }

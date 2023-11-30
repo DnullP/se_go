@@ -10,7 +10,6 @@
 package response
 
 type DeviceStatus struct {
-
 	Working string `json:"working"`
 
 	Mode string `json:"mode"`

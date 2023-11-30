@@ -17,5 +17,6 @@ import (
 
 // RemoteControlPost - remote_control
 func RemoteControlPost(c *gin.Context) {
+
 	c.JSON(http.StatusOK, gin.H{})
 }

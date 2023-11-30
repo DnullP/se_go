@@ -10,7 +10,6 @@
 package response
 
 type Report struct {
-
 	RoomId string `json:"room_id"`
 
 	TurnTimes string `json:"turn_times"`

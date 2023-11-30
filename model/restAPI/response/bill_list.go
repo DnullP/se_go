@@ -9,7 +9,6 @@
 
 package response
 
-type InlineObject3 struct {
-
-	Data string `json:"data"`
+type BillList struct {
+	DetailList []Bill `json:"detail_list"`
 }
