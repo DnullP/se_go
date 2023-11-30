@@ -1,44 +1,25 @@
 package config
 
-import (
-	"github.com/DnullP/se_work/mock"
-)
-
 // mock config
 var (
-	MockNum              = 5
-	AirConditionMockList = []mock.AirConditionMock{
-		{
-			DeviceID:           0,
-			NatureTemperature:  32,
-			CurrentTemperature: 32,
-			TargetTemperature:  32,
-			Speed:              "low",
-		},
-		{
-			DeviceID:           1,
-			NatureTemperature:  28,
-			CurrentTemperature: 28,
-			TargetTemperature:  28,
-			Speed:              "low",
-		}, {
-			DeviceID:           2,
-			NatureTemperature:  30,
-			CurrentTemperature: 30,
-			TargetTemperature:  30,
-			Speed:              "low",
-		}, {
-			DeviceID:           3,
-			NatureTemperature:  29,
-			CurrentTemperature: 29,
-			TargetTemperature:  29,
-			Speed:              "low",
-		}, {
-			DeviceID:           4,
-			NatureTemperature:  35,
-			CurrentTemperature: 35,
-			TargetTemperature:  35,
-			Speed:              "low",
-		},
-	}
+	MockNum             = 5
+	MockTemperatureList = []float32{32.0, 28.0, 30.0, 29.0, 35.0}
+)
+
+const (
+	// work mode
+	COLD = false
+	WARM = true
+)
+
+// central control config
+var (
+	ValidUpperTemperature float32 = 28.0
+	ValidLowerTemperature float32 = 18.0
+
+	PriceRateLow float32 = 1.0
+	PriceRateMid float32 = 1.0
+	PriceRateHig float32 = 1.0
+
+	WorkMode = COLD
 )

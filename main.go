@@ -12,6 +12,7 @@ package main
 import (
 	"log"
 
+	"github.com/DnullP/se_work/mock"
 	"github.com/DnullP/se_work/router"
 	"github.com/DnullP/se_work/utils"
 )
@@ -22,6 +23,7 @@ func init() {
 
 func main() {
 	utils.InitDB()
+	mock.InitAirConditionMock()
 
 	log.Printf("Server started")
 

@@ -1,9 +1,10 @@
 package service
 
 import (
-	"github.com/DnullP/se_work/model/schema"
+	dto "github.com/DnullP/se_work/model/DTO"
 )
 
-type ControlService struct {}
-
-
+type ControlService interface {
+	HandleAdminCommand(dto.Command)
+	HandleUserCommand(dto.Command)
+}

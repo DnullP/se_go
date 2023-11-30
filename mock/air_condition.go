@@ -8,11 +8,11 @@ import (
 )
 
 type AirConditionMock struct {
-	Data unsafeAirConditionMock
+	Data UnsafeAirConditionMock
 	lock sync.Mutex
 }
 
-type unsafeAirConditionMock struct {
+type UnsafeAirConditionMock struct {
 	DeviceID           uint
 	Working            bool
 	NatureTemperature  float32
@@ -24,8 +24,18 @@ type unsafeAirConditionMock struct {
 
 var AirConditionMockList = []AirConditionMock{}
 
-func GetAirConditionByDeviceID(deviceID uint) *AirConditionMock {
-	return &AirConditionMockList[deviceID]
+func GetAirConditionByDeviceID(deviceID uint) UnsafeAirConditionMock {
+	return AirConditionMockList[deviceID].Data
+}
+
+func SetAirCondition(set UnsafeAirConditionMock) {
+	aircondition := &AirConditionMockList[set.DeviceID]
+
+	aircondition.lock.Lock()
+	aircondition.Data.Working = set.Working
+	aircondition.Data.TargetTemperature = set.TargetTemperature
+	aircondition.Data.Speed = set.Speed
+	aircondition.lock.Unlock()
 }
 
 func updateAirConditionMockList() {
@@ -67,7 +77,7 @@ func UpdateWorkingAirCondition(workingQueue []int) {
 func InitAirConditionMock() {
 	for i := 0; i < config.MockNum; i++ {
 		AirConditionMockList = append(AirConditionMockList, AirConditionMock{
-			Data: unsafeAirConditionMock{
+			Data: UnsafeAirConditionMock{
 				DeviceID:           uint(i),
 				Working:            false,
 				NatureTemperature:  config.MockTemperatureList[i],
