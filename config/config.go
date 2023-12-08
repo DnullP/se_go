@@ -17,9 +17,7 @@ var (
 	ValidUpperTemperature float32 = 28.0
 	ValidLowerTemperature float32 = 18.0
 
-	PriceRateLow float32 = 1.0
-	PriceRateMid float32 = 1.0
-	PriceRateHig float32 = 1.0
+	PriceRate float32 = 1.0
 
 	WorkMode = COLD
 )

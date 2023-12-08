@@ -8,8 +8,8 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// LoginPost - login
-func LoginPost(c *gin.Context) {
+// LoginGet - login
+func LoginGet(c *gin.Context) {
 	permission, _ := utils.GetUserService().Login("", "")
 	response := restAPI.Status{}
 
@@ -22,8 +22,8 @@ func LoginPost(c *gin.Context) {
 	c.JSON(http.StatusOK, response)
 }
 
-// LogoutPost - logout
-func LogoutPost(c *gin.Context) {
+// LogoutGet - logout
+func LogoutGet(c *gin.Context) {
 	permission, _ := utils.GetUserService().Logout("")
 	response := restAPI.Status{}
 

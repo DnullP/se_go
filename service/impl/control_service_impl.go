@@ -13,26 +13,26 @@ var waitingQueue []uint
 
 func (controlService ControlServiceImpl) HandleAdminCommand(command dto.Command) {
 	switch command.Command {
+
 	case dto.SetMode:
-		mode, ok := command.Args[0].(bool)
+		mode, ok := command.Args[0].(string)
 		if !ok {
 			panic("invalid type")
 		}
-		if mode {
-			config.WorkMode = config.WARM
-		} else {
+		switch mode {
+		case "cool":
 			config.WorkMode = config.COLD
+		case "warm":
+			config.WorkMode = config.WARM
 		}
+
 	case dto.SetPrice:
-		priceRateLow, ok1 := command.Args[0].(float32)
-		priceRateMid, ok2 := command.Args[1].(float32)
-		priceRateHig, ok3 := command.Args[2].(float32)
-		if !ok1 || !ok2 || !ok3 {
+		priceRate, ok1 := command.Args[0].(float32)
+		if !ok1 {
 			panic("invalid type")
 		}
-		config.PriceRateLow = priceRateLow
-		config.PriceRateMid = priceRateMid
-		config.PriceRateHig = priceRateHig
+		config.PriceRate = priceRate
+
 	case dto.SetValidRange:
 		validLowerTemperature, ok1 := command.Args[0].(float32)
 		validUpperTemperature, ok2 := command.Args[1].(float32)
@@ -41,6 +41,7 @@ func (controlService ControlServiceImpl) HandleAdminCommand(command dto.Command)
 		}
 		config.ValidLowerTemperature = validLowerTemperature
 		config.ValidUpperTemperature = validUpperTemperature
+
 	case dto.TurnOffAll:
 		for i := 0; i < len(workingQueue); i++ {
 			device := mock.GetAirConditionByDeviceID(workingQueue[i])
@@ -49,6 +50,7 @@ func (controlService ControlServiceImpl) HandleAdminCommand(command dto.Command)
 		}
 		waitingQueue = append(waitingQueue, workingQueue...)
 		workingQueue = []uint{}
+
 	case dto.TurnOnAll:
 		for i := 0; i < len(waitingQueue); i++ {
 			device := mock.GetAirConditionByDeviceID(waitingQueue[i])
@@ -86,13 +88,14 @@ func (controlService ControlServiceImpl) HandleUserCommand(command dto.Command) 
 		if !ok {
 			panic("invalid type")
 		}
-		device.TargetTemperature = targetTemperature
+		device.TargetTemperature = float32(targetTemperature)
 		mock.SetAirCondition(device)
 	case dto.SetSpeed:
 		speed, ok := command.Args[0].(string)
 		if !ok {
-			device.Speed = speed
-			mock.SetAirCondition(device)
+			panic("invalid type")
 		}
+		device.Speed = speed
+		mock.SetAirCondition(device)
 	}
 }

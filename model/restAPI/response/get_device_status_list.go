@@ -9,6 +9,11 @@
 
 package response
 
+type DeviceStatus_room_id struct {
+	DeviceStatus
+	RoomID uint `json:"room_id"`
+}
+
 type DeviceStatusList struct {
-	DeviceList []DeviceStatus `json:"device_list"`
+	DeviceList []DeviceStatus_room_id `json:"device_list"`
 }

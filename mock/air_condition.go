@@ -38,42 +38,6 @@ func SetAirCondition(set UnsafeAirConditionMock) {
 	aircondition.lock.Unlock()
 }
 
-func updateAirConditionMockList() {
-	for {
-		for i := 0; i < len(AirConditionMockList); i++ {
-			AirConditionMockList[i].lock.Lock()
-			if AirConditionMockList[i].Data.CurrentTemperature < AirConditionMockList[i].Data.TargetTemperature {
-				AirConditionMockList[i].Data.CurrentTemperature += 0.5
-			} else if AirConditionMockList[i].Data.CurrentTemperature > AirConditionMockList[i].Data.TargetTemperature {
-				AirConditionMockList[i].Data.CurrentTemperature -= 0.5
-			}
-			AirConditionMockList[i].lock.Unlock()
-		}
-		time.Sleep(10 * time.Second)
-	}
-}
-
-func UpdateWorkingAirCondition(workingQueue []int) {
-	for i := 0; i < len(workingQueue); i++ {
-		aircondition := &AirConditionMockList[workingQueue[i]]
-
-		aircondition.lock.Lock()
-		if aircondition.Data.Working {
-			switch AirConditionMockList[i].Data.Speed {
-			case "low":
-				AirConditionMockList[i].Data.TotalCost += 0.5 + 1.0/3
-			case "medium":
-				AirConditionMockList[i].Data.TotalCost += 0.5 + 1.0/2
-			case "high":
-				AirConditionMockList[i].Data.TotalCost += 0.5 + 1.0
-			default:
-
-			}
-		}
-		aircondition.lock.Unlock()
-	}
-}
-
 func InitAirConditionMock() {
 	for i := 0; i < config.MockNum; i++ {
 		AirConditionMockList = append(AirConditionMockList, AirConditionMock{
@@ -89,4 +53,82 @@ func InitAirConditionMock() {
 		})
 	}
 	go updateAirConditionMockList()
+}
+
+func updateAirConditionMockList() {
+	var minutes uint = 0
+	for {
+		for i := 0; i < len(AirConditionMockList); i++ {
+			natureTemperatureChange(i)
+
+			aircon := AirConditionMockList[i].Data
+			if aircon.Working && aircon.Speed == "high" {
+				artificialTemperatureChange(i, 1.5)
+			}
+		}
+
+		if minutes%2 == 0 {
+			for i := 0; i < len(AirConditionMockList); i++ {
+				aircon := AirConditionMockList[i].Data
+				if aircon.Working && aircon.Speed == "mid" {
+					artificialTemperatureChange(i, 1.5)
+				}
+			}
+		}
+
+		if minutes%3 == 0 {
+			for i := 0; i < len(AirConditionMockList); i++ {
+				aircon := AirConditionMockList[i].Data
+				if aircon.Working && aircon.Speed == "low" {
+					artificialTemperatureChange(i, 1.5)
+				}
+			}
+		}
+
+		minutes += 1
+		time.Sleep(10 * time.Second)
+	}
+}
+
+// smile code, change it or don't read it
+func natureTemperatureChange(i int) {
+	AirConditionMockList[i].lock.Lock()
+
+	switch config.WorkMode {
+
+	case config.COLD:
+		if AirConditionMockList[i].Data.CurrentTemperature < AirConditionMockList[i].Data.NatureTemperature {
+			AirConditionMockList[i].Data.CurrentTemperature += 0.5
+		}
+
+	case config.WARM:
+		if AirConditionMockList[i].Data.CurrentTemperature > AirConditionMockList[i].Data.NatureTemperature {
+			AirConditionMockList[i].Data.CurrentTemperature -= 0.5
+		}
+	}
+
+	AirConditionMockList[i].lock.Unlock()
+}
+
+func artificialTemperatureChange(i int, c float32) {
+	AirConditionMockList[i].lock.Lock()
+
+	switch config.WorkMode {
+
+	case config.COLD:
+		if AirConditionMockList[i].Data.CurrentTemperature > AirConditionMockList[i].Data.TargetTemperature {
+			AirConditionMockList[i].Data.CurrentTemperature -= c
+		} else {
+			AirConditionMockList[i].Data.Working = false
+		}
+
+	case config.WARM:
+		if AirConditionMockList[i].Data.CurrentTemperature < AirConditionMockList[i].Data.TargetTemperature {
+			AirConditionMockList[i].Data.CurrentTemperature += c
+		} else {
+			AirConditionMockList[i].Data.Working = false
+		}
+	}
+
+	AirConditionMockList[i].lock.Unlock()
 }

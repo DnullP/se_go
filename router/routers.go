@@ -85,17 +85,17 @@ var routes = Routes{
 	},
 
 	{
-		"LoginPost",
-		http.MethodPost,
+		"LoginGet",
+		http.MethodGet,
 		"/login",
-		controller.LoginPost,
+		controller.LoginGet,
 	},
 
 	{
-		"LogoutPost",
-		http.MethodPost,
+		"LogoutGet",
+		http.MethodGet,
 		"/logout",
-		controller.LogoutPost,
+		controller.LogoutGet,
 	},
 
 	{
@@ -143,6 +143,6 @@ var routes = Routes{
 		"GetPanelStatus",
 		http.MethodGet,
 		"/get_panel_status",
-		controller.GetPanelStatus,
+		controller.GetPanelStatusGet,
 	},
 }

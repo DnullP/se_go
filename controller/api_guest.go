@@ -20,21 +20,31 @@ func RemoteControlPost(c *gin.Context) {
 
 	deviceID, _ := strconv.ParseUint(c.Query("device_id"), 10, 64)
 
+	args := make([]interface{}, 2)
+
+	switch command.Command {
+	case receive.SetSpeed:
+		args[0] = *command.Args.Speed
+	case receive.SetTemperature:
+		args[0] = float32(*command.Args.TargetTemp)
+		args[1] = float32(*command.Args.CurrentRoomTemp)
+	}
+
 	requireHandling := dto.Command{
 		Command:  command.Command,
 		DeviceID: uint(deviceID),
-		Args:     command.Args,
+		Args:     args,
 	}
 
 	utils.GetControlService().HandleUserCommand(requireHandling)
 
 	response_client := response.Status{}
-	response_client.Status = "success"
+	response_client.Status = "success!"
 	c.JSON(200, response_client)
 }
 
 // GetPanelStatus - get_panel_status
-func GetPanelStatus(c *gin.Context) {
+func GetPanelStatusGet(c *gin.Context) {
 	device_id := c.Query("device_id")
 	deviceID, _ := strconv.ParseUint(device_id, 10, 64)
 
