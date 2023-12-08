@@ -10,12 +10,55 @@
 package controller
 
 import (
-	"net/http"
+	"strconv"
 
+	dto "github.com/DnullP/se_work/model/DTO"
+	"github.com/DnullP/se_work/model/restAPI/receive"
+	"github.com/DnullP/se_work/model/restAPI/response"
+	getService "github.com/DnullP/se_work/utils/service"
 	"github.com/gin-gonic/gin"
 )
 
 // CheckInPost - check_in Copy
 func CheckInPost(c *gin.Context) {
-	c.JSON(http.StatusOK, gin.H{})
+	checkInRecieve := receive.CheckInReceive{}
+	c.BindJSON(&checkInRecieve)
+
+	roomID, err := strconv.ParseUint(c.Query("room_id"), 10, 64)
+	if err != nil {
+		panic(err)
+	}
+
+	checkIn := dto.CheckInfo{
+		GuestName: checkInRecieve.GuestName,
+		RoomID:    uint(roomID),
+	}
+
+	getService.GetCheckService().CheckIn(checkIn)
+
+	response_client := response.Status{}
+	response_client.Status = "success!"
+	c.JSON(200, response_client)
+}
+
+// CheckOutPost - check_out Copy
+func CheckOutPost(c *gin.Context) {
+	checkOutRecieve := receive.CheckOutReceive{}
+	c.BindJSON(&checkOutRecieve)
+
+	roomID, err := strconv.ParseUint(c.Query("room_id"), 10, 64)
+	if err != nil {
+		panic(err)
+	}
+
+	checkOut := dto.CheckInfo{
+		GuestName: checkOutRecieve.GuestName,
+		RoomID:    uint(roomID),
+	}
+
+	getService.GetCheckService().CheckOut(checkOut)
+
+	response_client := response.Status{}
+	response_client.Status = "success!"
+	c.JSON(200, response_client)
 }

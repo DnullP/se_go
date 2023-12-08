@@ -1,6 +1,7 @@
 package utils
 
 import (
+	"github.com/DnullP/se_work/model/schema"
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
 )
@@ -12,5 +13,6 @@ func InitDB() {
 	if err != nil {
 		panic("failed to connect database")
 	}
+	db.AutoMigrate(&schema.Guest{})
 	DB = db
 }

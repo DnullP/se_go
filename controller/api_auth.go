@@ -4,13 +4,13 @@ import (
 	"net/http"
 
 	restAPI "github.com/DnullP/se_work/model/restAPI/response"
-	"github.com/DnullP/se_work/utils"
+	getService "github.com/DnullP/se_work/utils/service"
 	"github.com/gin-gonic/gin"
 )
 
 // LoginGet - login
 func LoginGet(c *gin.Context) {
-	permission, _ := utils.GetUserService().Login("", "")
+	permission, _ := getService.GetUserService().Login("", "")
 	response := restAPI.Status{}
 
 	if permission {
@@ -24,7 +24,7 @@ func LoginGet(c *gin.Context) {
 
 // LogoutGet - logout
 func LogoutGet(c *gin.Context) {
-	permission, _ := utils.GetUserService().Logout("")
+	permission, _ := getService.GetUserService().Logout("")
 	response := restAPI.Status{}
 
 	if permission {

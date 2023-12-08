@@ -10,5 +10,32 @@
 package response
 
 type BillList struct {
-	DetailList []Bill `json:"detail_list"`
+	DetailList []DetailList `json:"detail_list"`
+	RoomID     int64        `json:"room_id"`
 }
+
+type DetailList struct {
+	// 秒
+	Duration float64 `json:"duration"`
+	// follow the unix timestamps
+	EndTime string `json:"end_time"`
+	// 元每度
+	FeeRate     float64  `json:"fee_rate"`
+	FromTem     *float64 `json:"from_tem,omitempty"`
+	PeriodCost  float64  `json:"period_cost"`
+	RequestTime string   `json:"request_time"`
+	// low, mid, high
+	Speed Speed `json:"speed"`
+	// follow the unix timestamps
+	StartTime string   `json:"start_time"`
+	ToTem     *float64 `json:"to_tem,omitempty"`
+}
+
+// low, mid, high
+type Speed string
+
+const (
+	High Speed = "high"
+	Low  Speed = "low"
+	Mid  Speed = "mid"
+)

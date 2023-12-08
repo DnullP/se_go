@@ -5,7 +5,7 @@ import (
 )
 
 type Guest struct {
-	GuestLogID   uint   `gorm:"primaryKey"`
+	GuestLogID   uint   `gorm:"primaryKey;autoIncrement"`
 	GuestName    string `gorm:"not null"`
 	DeviceID     uint   `gorm:"not null"`
 	CheckInTime  string
@@ -21,12 +21,12 @@ func (guest *Guest) CreateGuest(db *gorm.DB) *Guest {
 	return guest
 }
 
-func SetCheckInTime(db *gorm.DB, guest *Guest) *Guest {
+func (guest *Guest) SetCheckInTime(db *gorm.DB) *Guest {
 	db.Model(&guest).Update("check_in_time", guest.CheckInTime)
 	return guest
 }
 
-func SetCheckOutTime(db *gorm.DB, guest *Guest) *Guest {
-	db.Model(&guest).Update("check_out_time", guest.CheckOutTime)
+func (guest *Guest) SetCheckOutTime(db *gorm.DB) *Guest {
+	db.Model(&guest).Where("guest_name = ? and check_out_time = ?", guest.GuestName, "still_in").Update("check_out_time", guest.CheckOutTime)
 	return guest
 }

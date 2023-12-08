@@ -12,15 +12,41 @@ package controller
 import (
 	"net/http"
 
+	"github.com/DnullP/se_work/model/restAPI/response"
 	"github.com/gin-gonic/gin"
 )
 
 // BillCostGet - bill_cost
 func BillCostGet(c *gin.Context) {
-	c.JSON(http.StatusOK, gin.H{})
+	//not implemented
+
+	response := response.Bill{
+		CheckInTime:  "测试时间",
+		CheckOutTime: "测试时间",
+		RoomID:       0,
+		TotalCost:    0,
+	}
+
+	c.JSON(http.StatusOK, response)
 }
 
 // BillDetailGet - bill_detail
 func BillDetailGet(c *gin.Context) {
-	c.JSON(http.StatusOK, gin.H{})
+	
+	response := response.BillList{
+		DetailList: []response.DetailList{
+			{
+				Duration:    0,
+				EndTime:     "测试时间",
+				FeeRate:     0,
+				PeriodCost:  0,
+				RequestTime: "测试时间",
+				Speed:       "low",
+				StartTime:   "测试时间",
+			},
+		},
+		RoomID: 0,
+	}
+
+	c.JSON(http.StatusOK, response)
 }

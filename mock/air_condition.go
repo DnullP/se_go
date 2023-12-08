@@ -130,5 +130,7 @@ func artificialTemperatureChange(i int, c float32) {
 		}
 	}
 
+	AirConditionMockList[i].Data.TotalCost += config.PriceRate
+
 	AirConditionMockList[i].lock.Unlock()
 }

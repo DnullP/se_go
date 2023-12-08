@@ -9,6 +9,10 @@
 
 package receive
 
-type InlineObject2 struct {
+type CheckInReceive struct {
+	GuestName string `json:"guest_name"`
+}
+
+type CheckOutReceive struct {
 	GuestName string `json:"guest_name"`
 }

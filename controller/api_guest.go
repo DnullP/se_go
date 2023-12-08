@@ -6,7 +6,7 @@ import (
 	dto "github.com/DnullP/se_work/model/DTO"
 	"github.com/DnullP/se_work/model/restAPI/receive"
 	"github.com/DnullP/se_work/model/restAPI/response"
-	"github.com/DnullP/se_work/utils"
+	getService "github.com/DnullP/se_work/utils/service"
 	"github.com/gin-gonic/gin"
 )
 
@@ -36,7 +36,7 @@ func RemoteControlPost(c *gin.Context) {
 		Args:     args,
 	}
 
-	utils.GetControlService().HandleUserCommand(requireHandling)
+	getService.GetControlService().HandleUserCommand(requireHandling)
 
 	response_client := response.Status{}
 	response_client.Status = "success!"
@@ -48,7 +48,7 @@ func GetPanelStatusGet(c *gin.Context) {
 	device_id := c.Query("device_id")
 	deviceID, _ := strconv.ParseUint(device_id, 10, 64)
 
-	device := utils.GetQueryService().GetDeviceStatus(uint(deviceID))
+	device := getService.GetQueryService().GetDeviceStatus(uint(deviceID))
 
 	response_client := response.PanelStatus{
 		EnvTemperature:    float64(device.CurrentTemperature),

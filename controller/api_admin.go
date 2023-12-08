@@ -17,7 +17,7 @@ import (
 	dto "github.com/DnullP/se_work/model/DTO"
 	"github.com/DnullP/se_work/model/restAPI/receive"
 	"github.com/DnullP/se_work/model/restAPI/response"
-	"github.com/DnullP/se_work/utils"
+	getService "github.com/DnullP/se_work/utils/service"
 	"github.com/gin-gonic/gin"
 )
 
@@ -46,7 +46,7 @@ func AdminControlPost(c *gin.Context) {
 		DeviceID: uint(deviceID),
 		Args:     args,
 	}
-	utils.GetControlService().HandleAdminCommand(requiredHandling)
+	getService.GetControlService().HandleAdminCommand(requiredHandling)
 
 	response_client := response.Status{}
 	response_client.Status = "success!"
@@ -57,7 +57,7 @@ func AdminControlPost(c *gin.Context) {
 func GetAllDeviceStatusGet(c *gin.Context) {
 	response_client := response.DeviceStatusList{}
 	for i := 0; i < config.MockNum; i++ {
-		device := utils.GetQueryService().GetDeviceStatus(uint(i))
+		device := getService.GetQueryService().GetDeviceStatus(uint(i))
 		response_client.DeviceList = append(response_client.DeviceList, response.DeviceStatus_room_id{
 			DeviceStatus: response.DeviceStatus{
 				EnvTemperature:    float64(device.CurrentTemperature),
@@ -78,7 +78,7 @@ func GetDeviceStatusGet(c *gin.Context) {
 	device_id := c.Query("device_id")
 	deviceID, _ := strconv.ParseUint(device_id, 10, 64)
 
-	device := utils.GetQueryService().GetDeviceStatus(uint(deviceID))
+	device := getService.GetQueryService().GetDeviceStatus(uint(deviceID))
 
 	response_client := response.DeviceStatus{
 		EnvTemperature:    float64(device.CurrentTemperature),

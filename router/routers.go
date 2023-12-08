@@ -118,6 +118,12 @@ var routes = Routes{
 		"/check_in",
 		controller.CheckInPost,
 	},
+	{
+		"CheckOutPost",
+		http.MethodPost,
+		"/check_out",
+		controller.CheckOutPost,
+	},
 
 	{
 		"RemoteControlPost",
@@ -136,7 +142,7 @@ var routes = Routes{
 	{
 		"GetWeeklyReportPost",
 		http.MethodPost,
-		"/get_weekly_report",
+		"/get_range_report",
 		controller.GetWeeklyReportPost,
 	},
 	{

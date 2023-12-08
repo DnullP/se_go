@@ -1,4 +1,4 @@
-package utils
+package getService
 
 import "github.com/DnullP/se_work/service/impl"
 
@@ -12,4 +12,8 @@ func GetControlService() impl.ControlServiceImpl {
 
 func GetQueryService() impl.QueryServiceImpl {
 	return impl.QueryServiceImpl{}
+}
+
+func GetCheckService() impl.CheckServiceImpl {
+	return impl.CheckServiceImpl{}
 }

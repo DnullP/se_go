@@ -10,20 +10,17 @@
 package response
 
 type Report struct {
-	RoomId string `json:"room_id"`
+	RoomList []RoomList `json:"room_list"`
+}
 
-	TurnTimes string `json:"turn_times"`
-
-	SchedTimes string `json:"sched_times"`
-
-	BillTimes string `json:"bill_times"`
-
-	TweatTemTimes string `json:"tweat_tem_times"`
-
-	TweatSpeedTimes string `json:"tweat_speed_times"`
-
+type RoomList struct {
+	BillTimes       int64   `json:"bill_times"`
+	DailyCost       float64 `json:"daily_cost"`
+	RoomID          int64   `json:"room_id"`
+	SchedTimes      int64   `json:"sched_times"`
+	TurnTimes       int64   `json:"turn_times"`
+	TweatSpeedTimes int64   `json:"tweat_speed_times"`
+	TweatTemTimes   int64   `json:"tweat_tem_times"`
 	// this is the running time, not times !!!
-	WorkingTime string `json:"working_time"`
-
-	DailyCost string `json:"daily_cost"`
+	WorkingTime float64 `json:"working_time"`
 }

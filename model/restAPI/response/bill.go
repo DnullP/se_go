@@ -10,16 +10,8 @@
 package response
 
 type Bill struct {
-
-	// follow the unix timestamps
-	StartTime string `json:"start_time"`
-
-	// follow the unix timestamps
-	EndTime string `json:"end_time"`
-
-	Speed string `json:"speed"`
-
-	FromTem string `json:"from_tem"`
-
-	ToTem string `json:"to_tem"`
+	CheckInTime  string  `json:"check_in_time"`
+	CheckOutTime string  `json:"check_out_time"`
+	RoomID       int64   `json:"room_id"`
+	TotalCost    float64 `json:"total_cost"`
 }
