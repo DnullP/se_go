@@ -34,6 +34,23 @@ type Routes []Route
 // NewRouter returns a new router.
 func NewRouter() *gin.Engine {
 	router := gin.Default()
+
+	router.Use(func(c *gin.Context) {
+		c.Writer.Header().Set("Access-Control-Allow-Origin", "*")
+		c.Writer.Header().Set("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE, UPDATE")
+		c.Writer.Header().Set("Access-Control-Allow-Headers", "Origin, Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization")
+		c.Writer.Header().Set("Access-Control-Expose-Headers", "Content-Length")
+		c.Writer.Header().Set("Access-Control-Allow-Credentials", "true")
+
+		// 放行所有OPTIONS方法
+		if c.Request.Method == "OPTIONS" {
+			c.AbortWithStatus(200)
+			return
+		}
+
+		// 处理请求
+		c.Next()
+	})
 	for _, route := range routes {
 		switch route.Method {
 		case http.MethodGet:
