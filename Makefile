@@ -2,7 +2,6 @@
 build-linux:
 	GOOS=linux GOARCH=amd64 go build -o ./build/back-linux
 
-
 .PHONY: build-darwin
 build-darwin:
 	GOOS=darwin GOARCH=amd64 go build -o ./build/back-darwin
@@ -11,7 +10,6 @@ build-darwin:
 .PHONY: build-windows
 build-windows:
 	GOOS=windows GOARCH=amd64 go build -o ./build/back-windows.exe
-
 
 .PHONY: build-all
 build-all:
