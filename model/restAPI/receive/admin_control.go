@@ -1,8 +1,8 @@
 package receive
 
 type AdminCommandReceive struct {
-	Args    ArgsACR   `json:"args"`
-	Command string `json:"command"`
+	Args    ArgsACR `json:"args"`
+	Command string  `json:"command"`
 }
 
 type ArgsACR struct {

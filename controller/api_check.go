@@ -20,6 +20,11 @@ import (
 )
 
 // CheckInPost - check_in Copy
+// CheckInPost handles the HTTP POST request for checking in a guest.
+// It binds the JSON data from the request body to the CheckInReceive struct,
+// parses the room ID from the query parameter, creates a CheckInfo object,
+// and calls the CheckIn method of the CheckService.
+// Finally, it returns a JSON response with the status "success!".
 func CheckInPost(c *gin.Context) {
 	checkInRecieve := receive.CheckInReceive{}
 	c.BindJSON(&checkInRecieve)
@@ -42,6 +47,11 @@ func CheckInPost(c *gin.Context) {
 }
 
 // CheckOutPost - check_out Copy
+// CheckOutPost handles the HTTP POST request for checking out a guest.
+// It binds the JSON data from the request body to the CheckOutReceive struct,
+// parses the room ID from the query parameter, creates a CheckInfo object,
+// and calls the CheckOut method of the CheckService.
+// Finally, it returns a JSON response with the status "success!".
 func CheckOutPost(c *gin.Context) {
 	checkOutRecieve := receive.CheckOutReceive{}
 	c.BindJSON(&checkOutRecieve)

@@ -11,6 +11,10 @@ import (
 )
 
 // RemoteControlPost - remote_control
+// RemoteControlPost handles the POST request for remote control commands.
+// It receives a JSON payload containing the user command and device ID.
+// The command is then processed and forwarded to the control service for handling.
+// The response is a JSON object indicating the success status of the operation.
 func RemoteControlPost(c *gin.Context) {
 	command := receive.UserCommandReceive{}
 	err := c.BindJSON(&command)
@@ -44,6 +48,9 @@ func RemoteControlPost(c *gin.Context) {
 }
 
 // GetPanelStatus - get_panel_status
+// GetPanelStatusGet retrieves the panel status for a given device.
+// It expects a query parameter "device_id" which represents the ID of the device.
+// The function returns the panel status as a JSON response.
 func GetPanelStatusGet(c *gin.Context) {
 	device_id := c.Query("device_id")
 	deviceID, _ := strconv.ParseUint(device_id, 10, 64)

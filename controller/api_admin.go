@@ -22,6 +22,11 @@ import (
 )
 
 // AdminControlPost - admin_control
+// AdminControlPost handles the POST request for administrative control.
+// It receives the device ID from the query parameter and the command from the request body.
+// Based on the command, it prepares the arguments and creates a Command object.
+// The Command object is then passed to the control service for handling.
+// Finally, it sends a success response to the client.
 func AdminControlPost(c *gin.Context) {
 	device_id := c.Query("device_id")
 	deviceID, _ := strconv.ParseUint(device_id, 10, 64)
@@ -54,6 +59,10 @@ func AdminControlPost(c *gin.Context) {
 }
 
 // GetAllDeviceStatusGet - get_all_device_status
+// GetAllDeviceStatusGet retrieves the status of all devices.
+// It iterates over a range of device IDs and retrieves the device status using the GetDeviceStatus function.
+// The retrieved device status is then appended to the response_client.DeviceList.
+// Finally, the response_client is sent as a JSON response with HTTP status OK.
 func GetAllDeviceStatusGet(c *gin.Context) {
 	response_client := response.DeviceStatusList{}
 	for i := 0; i < config.MockNum; i++ {
@@ -74,6 +83,8 @@ func GetAllDeviceStatusGet(c *gin.Context) {
 }
 
 // GetDeviceStatusGet - get_device_status
+// GetDeviceStatusGet is a handler function for the GET request to retrieve the status of a device.
+// It takes a device ID as a query parameter and returns the device status in JSON format.
 func GetDeviceStatusGet(c *gin.Context) {
 	device_id := c.Query("device_id")
 	deviceID, _ := strconv.ParseUint(device_id, 10, 64)

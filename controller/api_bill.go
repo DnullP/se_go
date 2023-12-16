@@ -17,6 +17,11 @@ import (
 )
 
 // BillCostGet - bill_cost
+// BillCostGet is a handler function for the API endpoint that retrieves the cost of a bill.
+// It is currently not implemented.
+// Parameters:
+// - c: The gin.Context object representing the HTTP request and response.
+// Returns: None
 func BillCostGet(c *gin.Context) {
 	//not implemented
 
@@ -31,6 +36,8 @@ func BillCostGet(c *gin.Context) {
 }
 
 // BillDetailGet - bill_detail
+// BillDetailGet handles the GET request for retrieving bill details.
+// It returns the bill details in JSON format.
 func BillDetailGet(c *gin.Context) {
 	
 	response := response.BillList{

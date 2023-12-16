@@ -8,6 +8,8 @@ import (
 )
 
 // GetDailyReportPost - get_daily_report
+// GetDailyReportPost is a handler function that retrieves the daily report data and returns it as a JSON response.
+// It expects a Gin context object as a parameter.
 func GetDailyReportPost(c *gin.Context) {
 
 	response := response.Report{
@@ -29,6 +31,8 @@ func GetDailyReportPost(c *gin.Context) {
 }
 
 // GetWeeklyReportPost - get_weekly_report
+// GetWeeklyReportPost is a handler function that retrieves the weekly report data and returns it as a JSON response.
+// It expects a Gin context object as a parameter.
 func GetWeeklyReportPost(c *gin.Context) {
 
 	response := response.Report{
